@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var navPath = NavigationPath()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationStack(path: $navPath) {
+            ZStack {
+                Color("Background").ignoresSafeArea()
+                VStack {
+                    Text("iDecide").font(.system(size: 64)).bold()
+                    Text("...").font(.system(size: 64)).bold()
+                }.foregroundColor(Color("DarkTeal"))
+            }
         }
-        .padding()
     }
 }
 
