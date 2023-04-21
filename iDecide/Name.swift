@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Name: View {
     @State private var presentAlert = false
-    @State private var decisionName: String = ""
+    @State var decisionName: String = ""
     @State var changeView = false
     @State var changeView2 = false
     
