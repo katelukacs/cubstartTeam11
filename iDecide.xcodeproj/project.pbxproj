@@ -15,6 +15,7 @@
 		1E5CF84B29EFA2F700836826 /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5CF84A29EFA2F700836826 /* Name.swift */; };
 		1E5CF84D29EFA92E00836826 /* CoinFlip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5CF84C29EFA92E00836826 /* CoinFlip.swift */; };
 		1E5CF84F29EFAA1D00836826 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5CF84E29EFAA1D00836826 /* Matrix.swift */; };
+		2DC5042E29F65312006883AA /* ProsCons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC5042D29F65312006883AA /* ProsCons.swift */; };
 		9FA10E7D29EE4676003FFFB9 /* LogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA10E7C29EE4676003FFFB9 /* LogIn.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +29,7 @@
 		1E5CF84A29EFA2F700836826 /* Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Name.swift; sourceTree = "<group>"; };
 		1E5CF84C29EFA92E00836826 /* CoinFlip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinFlip.swift; sourceTree = "<group>"; };
 		1E5CF84E29EFAA1D00836826 /* Matrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
+		2DC5042D29F65312006883AA /* ProsCons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProsCons.swift; sourceTree = "<group>"; };
 		9FA10E7C29EE4676003FFFB9 /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +70,7 @@
 				1E5CF84E29EFAA1D00836826 /* Matrix.swift */,
 				1E5CF84C29EFA92E00836826 /* CoinFlip.swift */,
 				1E5CF84829EF8EC300836826 /* PreviousDecisions.swift */,
+				2DC5042F29F6545D006883AA /* Model */,
 				1E5CF83E29EDAC4900836826 /* Assets.xcassets */,
 				1E5CF84029EDAC4900836826 /* Preview Content */,
 			);
@@ -80,6 +83,14 @@
 				1E5CF84129EDAC4900836826 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2DC5042F29F6545D006883AA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2DC5042D29F65312006883AA /* ProsCons.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,6 +168,7 @@
 				1E5CF84D29EFA92E00836826 /* CoinFlip.swift in Sources */,
 				1E5CF83D29EDAC4600836826 /* ContentView.swift in Sources */,
 				9FA10E7D29EE4676003FFFB9 /* LogIn.swift in Sources */,
+				2DC5042E29F65312006883AA /* ProsCons.swift in Sources */,
 				1E5CF83B29EDAC4600836826 /* iDecideApp.swift in Sources */,
 				1E5CF84B29EFA2F700836826 /* Name.swift in Sources */,
 			);
