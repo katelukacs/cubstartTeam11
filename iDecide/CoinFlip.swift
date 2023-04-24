@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CoinFlip: View {
     @State private var presentAlert = false
+    @State private var presentAlert2 = false
     @State var faces: [String] = ["heads", "tails"]
     @State var face: String = "heads"
     @State var rotation: CGFloat = 0.0
@@ -24,19 +25,33 @@ struct CoinFlip: View {
             Text("").font(.system(size: 32)).bold().foregroundColor(Color("DarkTeal"))
                 .alert("", isPresented: $presentAlert, actions: {
                     Button("heads", action: {
-                        if face == "heads" { decision = true
+                        if coinBool { decision = true
                         } else {
                             decision = false
                         }
                     })
                     Button("tails", action: {
-                        if face == "tails" { decision = true
+                        if coinBool { decision = false
                         } else {
-                            decision = false
+                            decision = true
                         }
                     })
                 }, message: {
                     Text("call it in the air")
+                })
+                .alert("", isPresented: $presentAlert2, actions: {
+                    Button("ok", action: {
+                        
+                    })
+                    Button("flip again", action: {
+                    })
+                }, message: {
+                    if decision {
+                        Text("You should go for it")
+                    }
+                    else {
+                        Text("This decision is a no-go")
+                    }
                 })
             Text(face)
                 .font(.largeTitle)
@@ -67,6 +82,9 @@ struct CoinFlip: View {
                     } else {
                         face = "tails"
                     }
+                    try await Task.sleep(nanoseconds: 900_000_000)
+                        
+                    presentAlert2 = true
                 }
             }
             Text("decision = " + String(decision))
