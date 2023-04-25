@@ -61,7 +61,7 @@ struct CoinFlip: View {
                     .font(.largeTitle)
                     .foregroundColor(.white)
                     .frame(width: 150, height: 150)
-                    .background(Color.brown)
+                    .background(Color.gray)
                     .clipShape(Circle())
                     .rotation3DEffect(Angle(degrees: rotation), axis: (x: 1, y: 0, z: 0))
                     .offset(x: 0, y: offset_y)

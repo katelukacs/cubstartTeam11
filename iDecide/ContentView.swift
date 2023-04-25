@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     @State var navPath = NavigationPath()
+    @State var changeView = false
+    @State var isPresenting = false
+    @State var isPresenting2 = false
     
     var body: some View {
         NavigationStack(path: $navPath) {
@@ -16,8 +19,30 @@ struct ContentView: View {
                 Color("Background").ignoresSafeArea()
                 VStack {
                     Text("iDecide").font(.system(size: 64)).bold()
-                    Text("...").font(.system(size: 64)).bold()
-                }.foregroundColor(Color("DarkTeal"))
+                        .foregroundColor(Color("DarkTeal"))
+                        
+//                    Text("...").font(.system(size: 64)).bold()
+//                        .foregroundColor(Color("DarkTeal"))
+                        
+                    Button {
+                        isPresenting = true
+                    } label: {
+                        Text("LOG IN")
+                    }
+                    .navigationDestination(isPresented: $isPresenting) {
+                        LogIn(userName: .constant(""), password: .constant(""))
+                    }
+                    .buttonStyle(BigButton())
+                    Button {
+                        isPresenting2 = true
+                    } label: {
+                        Text("SIGN UP")
+                    }
+                    .navigationDestination(isPresented: $isPresenting2) {
+                        SignUp(userName: .constant(""), password: .constant(""))
+                    }
+                    .buttonStyle(BigButton())
+                }
             }
         }
     }

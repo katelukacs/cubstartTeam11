@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PreviousDecisions: View {
     @State var changeView = false
+    
     var body: some View {
         NavigationStack{
             VStack{
@@ -16,6 +17,16 @@ struct PreviousDecisions: View {
                 Text("Previous Decisions").font(.system(size: 36)).bold()
                     .padding()
             }.foregroundColor(Color("DarkTeal"))
+            
+            VStack(spacing:0){
+                Text("Username")
+                    .foregroundColor(Color.black)
+                    .font(.system(size: 20))
+                    .padding()
+                    .frame(width: 300.0, height: 60.0)
+                    .background(Color("Grey"))
+                    .clipShape(RoundedRectangle(cornerRadius: 20,style:.continuous))
+            }
             VStack{
                 Button {
                     changeView = true
