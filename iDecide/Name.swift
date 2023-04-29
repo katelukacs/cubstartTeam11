@@ -23,14 +23,16 @@ struct Name: View {
             
                 VStack{
                     Text("iDecide").font(.system(size: 64)).bold().foregroundColor(Color("DarkTeal"))
-                        .padding()
-                    Text("Let's help you decide:").font(.system(size:30))
+                        //.padding()
+                    Text("Let's help you decide \n if you should \n" + decisionName.prefix(1).lowercased() + decisionName.dropFirst() + ".")
+                        .font(.system(size:24))
                         .foregroundColor(Color("BurntRed"))
+                        .multilineTextAlignment(.center)
                         .padding()
-                    Divider()
-                    Text(decisionName).font(.system(size:30))
-                        .foregroundColor(Color("BurntRed"))
-                        .padding()
+                   // Divider()
+                   // Text(decisionName).font(.system(size:24))
+                   //     .foregroundColor(Color("BurntRed"))
+                   //     .padding()
                     Divider()
                     
                     

@@ -19,6 +19,11 @@ struct Matrix: View {
     
     var body: some View {
         VStack {
+            Text("iDecide").font(.system(size: 64)).bold().foregroundColor(Color("DarkTeal"))
+                .padding()
+            Text(newDecisionName).font(.system(size: 24)).bold()
+                .foregroundColor(Color("BurntRed"))
+                .padding()
             HStack {
                 TextField("New pro or con", text: $newProCon)
                     .textFieldStyle(.roundedBorder)
@@ -36,6 +41,7 @@ struct Matrix: View {
                         Text(prosCons[index].proCon)
                         HStack {
                             Text("Score: \(prosCons[index].score, specifier: "%.1f")")
+                                .foregroundColor(Color("DarkTeal"))
                             Slider(
                                 value: $prosCons[index].score,
                                 in: -10.0...10.0,
@@ -56,7 +62,7 @@ struct Matrix: View {
 //        .alert(isPresented: $showAlert) {
 //            Alert(title: Text(alertMessage))
 //        }
-        .alert("", isPresented: $showAlert, actions: {
+        .alert("Verdict:", isPresented: $showAlert, actions: {
             Button(alertMessage, action: {changeView = true
             })
         })

@@ -95,7 +95,7 @@ struct CoinFlip: View {
                             presentAlert2 = true
                         }
                     }
-                Text("decision = " + String(decisionBool))
+                //Text("decision = " + String(decisionBool))
             }
         }
     }
