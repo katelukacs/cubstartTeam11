@@ -11,6 +11,7 @@ struct CoinFlip: View {
     @ObservedObject var decisions : Decisions
     @State private var presentAlert = false
     @State private var presentAlert2 = false
+    @State private var alertMessage: String = ""
     @State var faces: [String] = ["heads", "tails"]
     @State var face: String = "heads"
     @State var rotation: CGFloat = 0.0
@@ -44,19 +45,9 @@ struct CoinFlip: View {
                     }, message: {
                         Text("call it in the air")
                     })
-                    .alert("", isPresented: $presentAlert2, actions: {
-                        Button("ok", action: {changeView = true
+                    .alert("Verdict:", isPresented: $presentAlert2, actions: {
+                        Button(alertMessage, action: {changeView = true
                         })
-//                        Button("flip again", action: {
-//                        })
-                    }, message: {
-                        if decisionBool {
-                            Text("You should go for it")
-                        }
-                        else {
-                            Text("This decision is a no-go")
-                        
-                        }
                     })
                     .navigationDestination(isPresented: $changeView) {
                         PreviousDecisions(decisions: decisions)
@@ -92,6 +83,14 @@ struct CoinFlip: View {
                             }
                             try await Task.sleep(nanoseconds: 900_000_000)
                             newDecision()
+                            
+                            if decisionBool {
+                                alertMessage = "You should go for it"
+                            }
+                            else {
+                                alertMessage = "This decision is a no-go"
+                            
+                            }
                             presentAlert2 = true
                         }
                     }
