@@ -13,7 +13,7 @@ struct SignUp: View {
     @Binding var password: String
     
     var body: some View {
-        NavigationStack{
+        //NavigationStack{
             ZStack{
                 Color("Background").ignoresSafeArea()
                 
@@ -51,7 +51,7 @@ struct SignUp: View {
             }
         }
     }
-}
+//}
 
 struct SignUp_Previews: PreviewProvider {
     static var previews: some View {

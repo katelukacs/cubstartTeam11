@@ -17,7 +17,7 @@ struct Name: View {
 
 
     var body: some View {
-        NavigationStack{
+        //NavigationStack{
             ZStack{
                 Color("Background").ignoresSafeArea()
             
@@ -74,7 +74,7 @@ struct Name: View {
             }
         }
     }
-}
+//}
 
 struct Name_Previews: PreviewProvider {
     static var previews: some View {

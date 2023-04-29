@@ -25,7 +25,7 @@ struct CoinFlip: View {
     }
     
     var body: some View {
-        NavigationStack {
+        //NavigationStack {
             VStack {
                 Text("").font(.system(size: 32)).bold().foregroundColor(Color("DarkTeal"))
                     .alert("", isPresented: $presentAlert, actions: {
@@ -98,7 +98,7 @@ struct CoinFlip: View {
                 //Text("decision = " + String(decisionBool))
             }
         }
-    }
+    //}
     func newDecision() {
         if decisionBool {
             rank = 5

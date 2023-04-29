@@ -12,7 +12,7 @@ struct PreviousDecisions: View {
     @ObservedObject var decisions : Decisions
     
     var body: some View {
-        NavigationStack{
+        //NavigationStack{
             VStack{
                 Text("iDecide").font(.system(size: 64)).bold()
                 Text("Previous Decisions").font(.system(size: 36)).bold()
@@ -56,7 +56,7 @@ struct PreviousDecisions: View {
             }
         }
     }
-}
+//}
 
 struct PreviousDecisions_Previews: PreviewProvider {
     static var previews: some View {
