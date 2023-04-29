@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct Matrix: View {
+    @ObservedObject var decisions: Decisions
     @State private var prosCons: [(proCon: String, score: Double)] = []
     @State private var newProCon: String = ""
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
+    @State var newDecisionName: String = ""
+    @State private var rank: Int = 1
+    @State var changeView: Bool = false
     
     var body: some View {
         VStack {
@@ -49,8 +53,15 @@ struct Matrix: View {
             }
             .buttonStyle(SmallButton())
         }
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text(alertMessage))
+//        .alert(isPresented: $showAlert) {
+//            Alert(title: Text(alertMessage))
+//        }
+        .alert("", isPresented: $showAlert, actions: {
+            Button(alertMessage, action: {changeView = true
+            })
+        })
+        .navigationDestination(isPresented: $changeView) {
+            PreviousDecisions(decisions: decisions)
         }
     }
     
@@ -73,21 +84,28 @@ struct Matrix: View {
         let average = scores.reduce(0, +) / Double(prosCons.count)
         if average >= 1 {
             alertMessage = "Go for it!"
+            rank = 5
         } else if average <= -1 {
             alertMessage = "No way!"
+            rank = 1
         } else if average == 0 {
             alertMessage = "It's a coin toss!"
+            rank = 3
         } else if average > -1 && average < 0 {
             alertMessage = "I have a bad feeling about this!"
+            rank = 2
         } else if average > 0 && average < 1 {
             alertMessage = "Proceed with caution!"
+            rank = 4
         }
         showAlert = true
+        let item = DecisionItem(name: newDecisionName, decide: rank)
+        decisions.items.append(item)
     }
 }
 
 struct Matrix_Previews: PreviewProvider {
     static var previews: some View {
-        Matrix()
+        Matrix(decisions: Decisions())
     }
 }

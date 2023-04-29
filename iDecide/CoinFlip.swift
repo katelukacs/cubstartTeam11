@@ -19,6 +19,7 @@ struct CoinFlip: View {
     @State var newDecisionName: String = ""
     @State var decisionBool: Bool = false
     @State var changeView: Bool = false
+    @State var rank: Int = 1
     func randomBool() -> Bool {
         return arc4random_uniform(2) == 0
     }
@@ -99,7 +100,13 @@ struct CoinFlip: View {
         }
     }
     func newDecision() {
-        let item = DecisionItem(name: newDecisionName, decide: decisionBool)
+        if decisionBool {
+            rank = 5
+        }
+        else {
+            rank = 1
+        }
+        let item = DecisionItem(name: newDecisionName, decide: rank)
         decisions.items.append(item)
     }
 }

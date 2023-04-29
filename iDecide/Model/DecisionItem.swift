@@ -10,7 +10,7 @@ import Foundation
 struct DecisionItem: Identifiable, Codable {
     var id = UUID()
     let name: String
-    let decide: Bool
+    let decide: Int
 }
 
 

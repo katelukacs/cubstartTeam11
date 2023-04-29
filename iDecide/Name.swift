@@ -61,7 +61,7 @@ struct Name: View {
                             Text("MATRIX")
                         }
                         .navigationDestination(isPresented: $changeView2) {
-                            Matrix()
+                            Matrix(decisions: decisions, newDecisionName: decisionName)
                         }
                         .buttonStyle(SmallButton())
                     }

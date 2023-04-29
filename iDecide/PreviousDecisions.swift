@@ -24,11 +24,20 @@ struct PreviousDecisions: View {
                         HStack {
                             Text(item.name)
                             Spacer()
-                            if item.decide {
+                            if item.decide == 5 {
+                                Text("✅✅")
+                            }
+                            else if item.decide == 4 {
                                 Text("✅")
                             }
-                            else {
+                            else if item.decide == 3 {
+                                Text("🤷‍♀️")
+                            }
+                            else if item.decide == 2 {
                                 Text("❌")
+                            }
+                            else if item.decide == 1 {
+                                Text("❌❌")
                             }
                         }
                     }
