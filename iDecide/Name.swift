@@ -8,24 +8,14 @@
 
 import SwiftUI
 
-//class Decision: ObservableObject {
-//    @Published var name: String
-//    @Published var tfBool: Bool
-//
-//    init(name: String, tfBool: Bool){
-//        self.name = "Hi"
-//        self.tfBool = false
-//    }
-//}
-
 struct Name: View {
     @State private var presentAlert = false
-    @State var decisionName: String = ""
+    @State var decisionName: String
     @State var changeView = false
     @State var changeView2 = false
-//    @EnvironmentObject var decision: Decision
+    @StateObject var decisions = Decisions()
 
-    
+
     var body: some View {
         NavigationStack{
             ZStack{
@@ -47,11 +37,11 @@ struct Name: View {
                     Text("Choose your path").font(.system(size: 32)).bold().foregroundColor(Color("DarkTeal"))
                         .alert("Decision Name", isPresented: $presentAlert, actions: {
                             TextField("Rescue a pup?", text: $decisionName)
-                            
                             Button("OK", action: {})
                         }, message: {
                             Text("What's on your mind?")
                         })
+
                     
                     HStack{
                         Button {
@@ -60,7 +50,8 @@ struct Name: View {
                             Text("COIN FLIP")
                         }
                         .navigationDestination(isPresented: $changeView) {
-                            CoinFlip()
+                            
+                            CoinFlip(decisions: decisions, newDecisionName: decisionName)
                         }
                         .buttonStyle(SmallButton())
                         
@@ -77,6 +68,7 @@ struct Name: View {
                 }
             }.onAppear{
                 presentAlert = true
+                
             }
         }
     }
@@ -84,6 +76,6 @@ struct Name: View {
 
 struct Name_Previews: PreviewProvider {
     static var previews: some View {
-        Name()
+        Name(decisionName: "")
     }
 }

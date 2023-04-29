@@ -71,7 +71,7 @@ struct LogIn: View {
                         Text("LOG IN")
                     }
                     .navigationDestination(isPresented: $isPresenting) {
-                        PreviousDecisions()
+                        PreviousDecisions(decisions: Decisions())
                     }
                     .buttonStyle(BigButton())
                 }

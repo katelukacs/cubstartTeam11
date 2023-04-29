@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PreviousDecisions: View {
     @State var changeView = false
+    @ObservedObject var decisions : Decisions
     
     var body: some View {
         NavigationStack{
@@ -17,24 +18,30 @@ struct PreviousDecisions: View {
                 Text("Previous Decisions").font(.system(size: 36)).bold()
                     .padding()
             }.foregroundColor(Color("DarkTeal"))
-            
-            VStack(spacing:0){
-                Text("Username")
-                    .foregroundColor(Color.black)
-                    .font(.system(size: 20))
-                    .padding()
-                    .frame(width: 300.0, height: 60.0)
-                    .background(Color("Grey"))
-                    .clipShape(RoundedRectangle(cornerRadius: 20,style:.continuous))
+            List {
+                ForEach(decisions.items, id: \.id){item in
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text(item.name)
+                            Spacer()
+                            if item.decide {
+                                Text("✅")
+                            }
+                            else {
+                                Text("❌")
+                            }
+                        }
+                    }
+                }
             }
             VStack{
                 Button {
                     changeView = true
                 } label: {
-                    Text("NEW DECISIONS")
+                    Text("NEW DECISION")
                 }
                 .navigationDestination(isPresented: $changeView) {
-                    Name()
+                    Name(decisionName: "", decisions: decisions)
                 }
                 .buttonStyle(BigButton())
             }
@@ -44,6 +51,6 @@ struct PreviousDecisions: View {
 
 struct PreviousDecisions_Previews: PreviewProvider {
     static var previews: some View {
-        PreviousDecisions()
+        PreviousDecisions(decisions: Decisions())
     }
 }

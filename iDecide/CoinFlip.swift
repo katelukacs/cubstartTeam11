@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct CoinFlip: View {
+    @ObservedObject var decisions : Decisions
     @State private var presentAlert = false
     @State private var presentAlert2 = false
     @State var faces: [String] = ["heads", "tails"]
     @State var face: String = "heads"
     @State var rotation: CGFloat = 0.0
     @State var offset_y: CGFloat = 0.0
-    @State var decision: Bool = false
     @State var coinBool: Bool = false
+    @State var newDecisionName: String = ""
+    @State var decisionBool: Bool = false
     @State var changeView: Bool = false
     func randomBool() -> Bool {
         return arc4random_uniform(2) == 0
@@ -27,15 +29,15 @@ struct CoinFlip: View {
                 Text("").font(.system(size: 32)).bold().foregroundColor(Color("DarkTeal"))
                     .alert("", isPresented: $presentAlert, actions: {
                         Button("heads", action: {
-                            if coinBool { decision = true
+                            if coinBool { decisionBool = true
                             } else {
-                                decision = false
+                                decisionBool = false
                             }
                         })
                         Button("tails", action: {
-                            if coinBool { decision = false
+                            if coinBool { decisionBool = false
                             } else {
-                                decision = true
+                                decisionBool = true
                             }
                         })
                     }, message: {
@@ -47,15 +49,16 @@ struct CoinFlip: View {
 //                        Button("flip again", action: {
 //                        })
                     }, message: {
-                        if decision {
+                        if decisionBool {
                             Text("You should go for it")
                         }
                         else {
                             Text("This decision is a no-go")
+                        
                         }
                     })
                     .navigationDestination(isPresented: $changeView) {
-                        PreviousDecisions()
+                        PreviousDecisions(decisions: decisions)
                     }
                 Text(face)
                     .font(.largeTitle)
@@ -87,19 +90,23 @@ struct CoinFlip: View {
                                 face = "tails"
                             }
                             try await Task.sleep(nanoseconds: 900_000_000)
-                            
+                            newDecision()
                             presentAlert2 = true
                         }
                     }
-                Text("decision = " + String(decision))
+                Text("decision = " + String(decisionBool))
             }
-            
         }
+    }
+    func newDecision() {
+        let item = DecisionItem(name: newDecisionName, decide: decisionBool)
+        decisions.items.append(item)
     }
 }
 
+
 struct CoinFlip_Previews: PreviewProvider {
     static var previews: some View {
-        CoinFlip()
+        CoinFlip(decisions: Decisions())
     }
 }

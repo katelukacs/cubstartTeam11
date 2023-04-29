@@ -45,8 +45,7 @@ struct SignUp: View {
                         Text("SIGN UP")
                     }
                     .navigationDestination(isPresented: $isPresenting) {
-                        Name()
-                    }
+                        Name(decisionName: "")                    }
                     .buttonStyle(BigButton())
                 }
             }
