@@ -13,6 +13,7 @@ struct SignUp: View {
     @State var isPresenting2 = false
     @State var email = ""
     @State var password = ""
+    @StateObject var user = User(id: "")
     
     func createUser(email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
@@ -20,6 +21,7 @@ struct SignUp: View {
                 print(err.localizedDescription)
                 return
             }
+            
             self.isPresenting = true
         }
     }
@@ -73,10 +75,10 @@ struct SignUp: View {
                     }
                 }
                 .navigationDestination(isPresented: $isPresenting) {
-                    Name(decisionName: "")
+                    Name(decisionName: "", user: user)
                 }
                 .navigationDestination(isPresented: $isPresenting2) {
-                    LogIn()
+                    LogIn(user: user)
                 }
                 .navigationBarBackButtonHidden()
             }
@@ -84,8 +86,8 @@ struct SignUp: View {
     }
 //}
 
-struct SignUp_Previews: PreviewProvider {
+/*struct SignUp_Previews: PreviewProvider {
     static var previews: some View {
         SignUp()
     }
-}
+}*/

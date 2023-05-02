@@ -13,7 +13,7 @@ struct Name: View {
     @State var decisionName: String
     @State var changeView = false
     @State var changeView2 = false
-    @StateObject var decisions = Decisions()
+    @ObservedObject var user: User
 
 
     var body: some View {
@@ -53,7 +53,7 @@ struct Name: View {
                         }
                         .navigationDestination(isPresented: $changeView) {
                             
-                            CoinFlip(decisions: decisions, newDecisionName: decisionName)
+                            CoinFlip(newDecisionName: decisionName, user: user)
                         }
                         .buttonStyle(SmallButton())
                         
@@ -63,7 +63,7 @@ struct Name: View {
                             Text("MATRIX")
                         }
                         .navigationDestination(isPresented: $changeView2) {
-                            Matrix(decisions: decisions, newDecisionName: decisionName)
+                            Matrix(newDecisionName: decisionName, user: user)
                         }
                         .buttonStyle(SmallButton())
                     }
@@ -76,8 +76,8 @@ struct Name: View {
     }
 //}
 
-struct Name_Previews: PreviewProvider {
+/*struct Name_Previews: PreviewProvider {
     static var previews: some View {
         Name(decisionName: "")
     }
-}
+}*/

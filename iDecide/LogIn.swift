@@ -40,6 +40,7 @@ struct LogIn: View {
     @State var isPresenting2 = false
     @State var email = ""
     @State var password = ""
+    @StateObject var user = User(id: "")
     
     
     func login(email: String, password: String) {
@@ -48,6 +49,10 @@ struct LogIn: View {
                 print(err.localizedDescription)
                 return
             }
+            
+            let id = result!.user.uid
+            user.id = id
+
             self.isPresenting = true
         }
     }
@@ -100,10 +105,10 @@ struct LogIn: View {
                     }
                 }
                 .navigationDestination(isPresented: $isPresenting) {
-                    PreviousDecisions(decisions: Decisions())
+                    PreviousDecisions(user: self.user)
                 }
                 .navigationDestination(isPresented: $isPresenting2) {
-                    SignUp()
+                    SignUp(user: user)
                 }
                 .navigationBarBackButtonHidden()
             }
@@ -111,8 +116,8 @@ struct LogIn: View {
     }
 //}
 
-struct LogIn_Previews: PreviewProvider {
+/*struct LogIn_Previews: PreviewProvider {
     static var previews: some View {
         LogIn()
     }
-}
+}*/

@@ -11,7 +11,7 @@ import Firebase
 struct PreviousDecisions: View {
     @State var changeView = false
     @State var isLoggedOut = false
-    @ObservedObject var decisions : Decisions
+    @ObservedObject var user: User
     
     func logOut() {
         do {
@@ -39,9 +39,9 @@ struct PreviousDecisions: View {
                 Text("Previous Decisions").font(.system(size: 36)).bold()
                     .padding()
                 
-                if (!decisions.items.isEmpty) {
+                if (!user.decisionItems.isEmpty) {
                     List {
-                        ForEach(decisions.items, id: \.id){item in
+                        ForEach(user.decisionItems){item in
                             VStack(alignment: .leading) {
                                 HStack {
                                     Text(item.name)
@@ -80,7 +80,7 @@ struct PreviousDecisions: View {
             }
             .foregroundColor(Color("DarkTeal"))
             .navigationDestination(isPresented: $changeView) {
-                Name(decisionName: "", decisions: decisions)
+                Name(decisionName: "", user: user)
             }
             .navigationDestination(isPresented: $isLoggedOut) {
                 ContentView()
@@ -91,8 +91,8 @@ struct PreviousDecisions: View {
 }
 //}
 
-struct PreviousDecisions_Previews: PreviewProvider {
+/*struct PreviousDecisions_Previews: PreviewProvider {
     static var previews: some View {
-        PreviousDecisions(decisions: Decisions())
+        PreviousDecisions(user: User(id: .constant("")))
     }
-}
+}*/

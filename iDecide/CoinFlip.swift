@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct CoinFlip: View {
-    @ObservedObject var decisions : Decisions
     @State private var presentAlert = false
     @State private var presentAlert2 = false
     @State private var alertMessage: String = ""
@@ -21,12 +21,14 @@ struct CoinFlip: View {
     @State var decisionBool: Bool = false
     @State var changeView: Bool = false
     @State var rank: Int = 1
+    @ObservedObject var user: User
     func randomBool() -> Bool {
         return arc4random_uniform(2) == 0
     }
     
     var body: some View {
-        //NavigationStack {
+        ZStack {
+            Color("Background").ignoresSafeArea()
             VStack {
                 Text("").font(.system(size: 32)).bold().foregroundColor(Color("DarkTeal"))
                     .alert("", isPresented: $presentAlert, actions: {
@@ -46,11 +48,12 @@ struct CoinFlip: View {
                         Text("call it in the air")
                     })
                     .alert("Verdict:", isPresented: $presentAlert2, actions: {
-                        Button(alertMessage, action: {changeView = true
+                        Button(alertMessage, action: {
+                            changeView = true
                         })
                     })
                     .navigationDestination(isPresented: $changeView) {
-                        PreviousDecisions(decisions: decisions)
+                        PreviousDecisions(user: user)
                     }
                 Text(face)
                     .font(.largeTitle)
@@ -97,7 +100,7 @@ struct CoinFlip: View {
                 //Text("decision = " + String(decisionBool))
             }
         }
-    //}
+    }
     func newDecision() {
         if decisionBool {
             rank = 5
@@ -105,14 +108,26 @@ struct CoinFlip: View {
         else {
             rank = 1
         }
-        let item = DecisionItem(name: newDecisionName, decide: rank)
-        decisions.items.append(item)
+        
+        let db = Firestore.firestore()
+        db.collection("DecisionItem").addDocument(data: [
+            "name": newDecisionName,
+            "decide": rank,
+            "user": user.id
+        ]) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                user.fetchDecisions()
+                print("Document successfully written!")
+            }
+        }
     }
 }
 
 
-struct CoinFlip_Previews: PreviewProvider {
+/*struct CoinFlip_Previews: PreviewProvider {
     static var previews: some View {
         CoinFlip(decisions: Decisions())
     }
-}
+}*/
