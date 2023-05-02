@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct Matrix: View {
-    @ObservedObject var decisions: Decisions
     @State private var prosCons: [(proCon: String, score: Double)] = []
     @State private var newProCon: String = ""
     @State private var showAlert: Bool = false
@@ -16,58 +16,62 @@ struct Matrix: View {
     @State var newDecisionName: String = ""
     @State private var rank: Int = 1
     @State var changeView: Bool = false
+    @ObservedObject var user: User
     
     var body: some View {
-        VStack {
-            Text("iDecide").font(.system(size: 64)).bold().foregroundColor(Color("DarkTeal"))
-                .padding()
-            Text(newDecisionName).font(.system(size: 24)).bold()
-                .foregroundColor(Color("BurntRed"))
-                .padding()
-            HStack {
-                TextField("New pro or con", text: $newProCon)
-                    .textFieldStyle(.roundedBorder)
-                Button(action: addProCon) {
-                    Text("Add")
-                        .foregroundColor(Color("DarkTeal"))
-                }
-            }.padding()
-            
-            Divider()
-            
-            List {
-                ForEach(prosCons.indices, id: \.self) { index in
-                    VStack(alignment: .leading) {
-                        Text(prosCons[index].proCon)
-                        HStack {
-                            Text("Score: \(prosCons[index].score, specifier: "%.1f")")
-                                .foregroundColor(Color("DarkTeal"))
-                            Slider(
-                                value: $prosCons[index].score,
-                                in: -10.0...10.0,
-                                step: 0.5,
-                                label: { EmptyView() }
-                            )
-                            .accentColor(color(forScore: prosCons[index].score))
+        ZStack {
+            Color("Background").ignoresSafeArea()
+            VStack {
+                Text("iDecide").font(.system(size: 64)).bold().foregroundColor(Color("DarkTeal"))
+                    .padding()
+                Text(newDecisionName).font(.system(size: 24)).bold()
+                    .foregroundColor(Color("BurntRed"))
+                    .padding()
+                HStack {
+                    TextField("New pro or con", text: $newProCon)
+                        .textFieldStyle(.roundedBorder)
+                    Button(action: addProCon) {
+                        Text("Add")
+                            .foregroundColor(Color("DarkTeal"))
+                    }
+                }.padding()
+                
+                Divider()
+                
+                List {
+                    ForEach(prosCons.indices, id: \.self) { index in
+                        VStack(alignment: .leading) {
+                            Text(prosCons[index].proCon)
+                            HStack {
+                                Text("Score: \(prosCons[index].score, specifier: "%.1f")")
+                                    .foregroundColor(Color("DarkTeal"))
+                                Slider(
+                                    value: $prosCons[index].score,
+                                    in: -10.0...10.0,
+                                    step: 0.5,
+                                    label: { EmptyView() }
+                                )
+                                .accentColor(color(forScore: prosCons[index].score))
+                            }
                         }
                     }
                 }
+                
+                Button(action: decide) {
+                    Text("Decide")
+                }
+                .buttonStyle(SmallButton())
             }
-            
-            Button(action: decide) {
-                Text("Decide")
-            }
-            .buttonStyle(SmallButton())
-        }
-//        .alert(isPresented: $showAlert) {
-//            Alert(title: Text(alertMessage))
-//        }
-        .alert("Verdict:", isPresented: $showAlert, actions: {
-            Button(alertMessage, action: {changeView = true
+            //        .alert(isPresented: $showAlert) {
+            //            Alert(title: Text(alertMessage))
+            //        }
+            .alert("Verdict:", isPresented: $showAlert, actions: {
+                Button(alertMessage, action: {changeView = true
+                })
             })
-        })
-        .navigationDestination(isPresented: $changeView) {
-            PreviousDecisions(decisions: decisions)
+            .navigationDestination(isPresented: $changeView) {
+                PreviousDecisions(user: user)
+            }
         }
     }
     
@@ -105,13 +109,25 @@ struct Matrix: View {
             rank = 4
         }
         showAlert = true
-        let item = DecisionItem(name: newDecisionName, decide: rank)
-        decisions.items.append(item)
+        
+        let db = Firestore.firestore()
+        db.collection("DecisionItem").addDocument(data: [
+            "name": newDecisionName,
+            "decide": rank,
+            "user": user.id
+        ]) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                user.fetchDecisions()
+                print("Document successfully written!")
+            }
+        }
     }
 }
 
-struct Matrix_Previews: PreviewProvider {
+/*struct Matrix_Previews: PreviewProvider {
     static var previews: some View {
         Matrix(decisions: Decisions())
     }
-}
+}*/
