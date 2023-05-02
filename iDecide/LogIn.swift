@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseAuth
 
 struct BigButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
@@ -50,8 +51,9 @@ struct LogIn: View {
                 return
             }
             
-            let id = result!.user.uid
-            user.id = id
+            let id = result?.user.uid
+            user.id = id ?? ""
+            user.fetchDecisions()
 
             self.isPresenting = true
         }

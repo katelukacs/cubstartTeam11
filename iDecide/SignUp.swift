@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseAuth
 
 struct SignUp: View {
     @State var isPresenting = false
@@ -21,6 +22,9 @@ struct SignUp: View {
                 print(err.localizedDescription)
                 return
             }
+            
+            let id = result?.user.uid
+            user.id = id ?? ""
             
             self.isPresenting = true
         }
@@ -60,6 +64,7 @@ struct SignUp: View {
                     Button {
                         isPresenting = true
                         createUser(email: email, password: password)
+                        user.fetchDecisions()
                     } label: {
                         Text("SIGN UP")
                     }
