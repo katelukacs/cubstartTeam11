@@ -31,7 +31,7 @@ struct ContentView: View {
                         Text("LOG IN")
                     }
                     .navigationDestination(isPresented: $isPresenting) {
-                        LogIn(userName: .constant(""), password: .constant(""))
+                        LogIn()
                     }
                     .buttonStyle(BigButton())
                     Button {
@@ -40,10 +40,10 @@ struct ContentView: View {
                         Text("SIGN UP")
                     }
                     .navigationDestination(isPresented: $isPresenting2) {
-                        SignUp(userName: .constant(""), password: .constant(""))
+                        SignUp()
                     }
                     .buttonStyle(BigButton())
-                }
+                }.navigationBarBackButtonHidden()
             }
         }
     }

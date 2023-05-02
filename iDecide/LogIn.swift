@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Firebase
+
 struct BigButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -35,8 +37,20 @@ struct SmallButton: ButtonStyle {
 
 struct LogIn: View {
     @State var isPresenting = false
-    @Binding var userName: String
-    @Binding var password: String
+    @State var isPresenting2 = false
+    @State var email = ""
+    @State var password = ""
+    
+    
+    func login(email: String, password: String) {
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            if let err = error {
+                print(err.localizedDescription)
+                return
+            }
+            self.isPresenting = true
+        }
+    }
     
     var body: some View {
         //NavigationStack{
@@ -44,37 +58,54 @@ struct LogIn: View {
                 Color("Background").ignoresSafeArea()
                 
                 VStack{
+                    Spacer()
+                    
                     Text("iDecide").font(.system(size: 64)).bold().foregroundColor(Color("DarkTeal"))
                     VStack(spacing:0){
-                        TextField("Username", text: $userName)
+                        TextField("Email", text: $email)
                             .font(.system(size: 20))
                             .padding()
                             .frame(width: 300.0, height: 60.0)
                             .background(Color("Grey"))
                             .roundedCorner(20, corners: [.topLeft, .topRight])
+                            .textInputAutocapitalization(.never)
                         Divider()
                             .frame(width:300.0)
                             .background(.black)
-                        TextField("Password", text: $password)
+                        SecureField("Password", text: $password)
                             .font(.system(size: 20))
                             .padding()
                             .frame(width: 300.0, height: 60.0)
                             .background(Color("Grey"))
                             .roundedCorner(20, corners: [.bottomRight, .bottomLeft])
-                        
-                        
+                            .textInputAutocapitalization(.never)
                     }.padding()
                     
                     Button {
-                        isPresenting = true
+                        login(email: email, password: password)
                     } label: {
                         Text("LOG IN")
                     }
-                    .navigationDestination(isPresented: $isPresenting) {
-                        PreviousDecisions(decisions: Decisions())
-                    }
                     .buttonStyle(BigButton())
+                    
+                    Spacer()
+                    
+                    HStack {
+                        Text("Don't have an account?")
+                        Button("Sign Up") {
+                            isPresenting2 = true
+                        }
+                        .foregroundColor(Color.black)
+                        .bold()
+                    }
                 }
+                .navigationDestination(isPresented: $isPresenting) {
+                    PreviousDecisions(decisions: Decisions())
+                }
+                .navigationDestination(isPresented: $isPresenting2) {
+                    SignUp()
+                }
+                .navigationBarBackButtonHidden()
             }
         }
     }
@@ -82,6 +113,6 @@ struct LogIn: View {
 
 struct LogIn_Previews: PreviewProvider {
     static var previews: some View {
-        LogIn(userName: .constant(""),password: .constant(""))
+        LogIn()
     }
 }
